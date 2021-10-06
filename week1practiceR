@@ -1,0 +1,59 @@
+#to create and name a file use
+file.edit("scripts/week1practice.R")
+
+#R only does what you tell it to- define a value
+a <-1
+
+#Try to create a vector of 3 numbers
+
+number_vector = c(23, 32, 45)
+
+#Try to pull out the second number
+numbervector[2]
+
+#pull the second number twice
+number_vector[c(2,2)]  
+
+#add 54 to the list of numbers in the number vector
+number_vector = c(number_vector, 54)
+
+#indexing and subsetting mean the same thing
+
+
+
+#Strings are included in quotation marks, strings are just
+#collections of letters or numbers (but are regarded as
+#characters) Stings mean dont treat these as numbers
+
+my_string <-"24"
+#my_string/2 doesnt work because its not a number
+
+#class(my_string) and tells you that its characters
+
+#?data.frame explains what this is
+
+class(my_frame)
+data.frame(c(my_string, my_string))
+
+Lists 
+#Test list 
+
+my_string <-c("dog", "walrus", "walrus")
+
+#Lists
+?list
+test_list = list("first_string_entry_into_list")
+#double brackets subset lists
+str(test_list)
+#add another element to the list 
+test_list[[1]][2]<-'add_to_list'
+
+test_list
+
+data.frame(letters)
+test_df <-data.frame(letters)
+
+test_list[[3]] <-test_df
+
+test_list
+
