@@ -21,6 +21,12 @@ group_by(genus, plot_type) %>%
   summarise(mean_hindfoot = mean(hindfoot_length)) %>%
   pivot_wider(names_from = plot_type, values_from = mean_hindfoot) %>%
   arrange(Control)
+#arrange by control- visualization tool
+
+surveys_wide %>% arrange(desc(Control))
+
+
+
 
 ?arrange
 surveys_wide
@@ -43,8 +49,23 @@ summary(surveys$weight)
 weight_cat <- surveys %>%
   mutate (weight = case_when(weight >= 20.00 ~ 'small', 
                              weight >20.00 & weight <48.00 ~ 'medium', 
-                             T ~ 'large'))
+                             T ~ 'large')) #T means that whatever is left is large
 
+#or
+# specify the final argument in case_when()
+surveys %>%
+  mutate(weight_cat = case_when(
+    weight >= 20.00 ~ "small",
+    weight > 20.00 & weight < 48.00 ~ "medium",
+    weight >= 48.00 ~ "large"
+  )) %>%
+  select(weight, weight_cat) %>%
+  filter(is.na(weight))
+
+##pivots transform data to visualize them in other ways- changing 
+#with a lot of rows to columns or columns to rows
 weight_cat
            
+
+
          

@@ -100,3 +100,126 @@ facet_wrap(~ species_id) +
   theme(plot.background = element_rect(fill = "red"))
 
 library(ggthemes)
+
+
+###IN CLASS
+#Challenge
+#Use what you just learned to create a scatter plot of 
+#weight and species_id with weight on the Y-axis, and 
+#species_id on the X-axis. Have the colors be coded by 
+#plot_type. Is this a good way to show this type of data?
+#What might be a better graph?
+
+surveys_complete <- surveys %>%
+  filter(complete.cases(.))
+
+plot <- ggplot(data = surveys_complete, mapping = aes(y = weight, x = species_id)) +
+  geom_point(alpha = 0.5, aes(color = plot_type))
+
+# switches axes
+ggplot(data = surveys_complete,
+       mapping = aes(y = weight, x = plot_type)) +
+  geom_point(alpha = 0.5, aes(color = species_id))
+
+# plot types as panels
+ggplot(surveys_complete, aes(x = species_id, y = weight)) +
+  geom_point() +
+  facet_wrap(~plot_type)
+
+# don't like the theme
+ggplot(surveys_complete, aes(x = species_id, y = weight)) +
+  geom_point() +
+  theme_classic()
+
+ggplot(surveys_complete, aes(x = species_id, y = weight)) +
+  geom_boxplot() +
+  geom_jitter(mapping = aes(color = plot_type))
+
+
+#Challenges
+#Boxplots are useful summaries, but hide the shape of the 
+#distribution. For example, if the distribution is bimodal, 
+#we would not see it in a boxplot. An alternative to the 
+#boxplot is the violin plot, where the shape (of the density
+#of points) is drawn.
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+  geom_boxplot(alpha = 0) +
+  geom_jitter(alpha = 0.3, color = "tomato") #notice our color needs to be in quotations 
+
+#1. ##Replace the box plot with a violin plot; see 
+#geom_violin().
+# adding violin
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+  geom_jitter(alpha = 0.1, color = "tomato") +
+  geom_violin(alpha = 0)
+
+# adding
+base <- ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight))
+
+base +
+  geom_jitter(alpha = .1) +
+  geom_violin() +
+  scale_y_log10()
+
+
+#In many types of data, it is important to consider the 
+#scale of the observations. For example, it may be worth 
+#changing the scale of the axis to better distribute the 
+#observations in the space of the plot. Changing the scale 
+#of the axes is done similarly to adding/modifying other 
+#components (i.e., by incrementally adding commands). 
+#Try making these modifications:
+  #2. #Represent weight on the log10 scale; see scale_y_log10().
+
+scale_plot <- ggplot(data = surveys_complete, mapping = aes(y = weight, x = species_id)) + 
+  geom_violin(aes(color = species_id)) + 
+  scale_y_log10('weight')
+
+scale_plot
+
+#Make a new plot to explore the distrubtion of 
+#hindfoot_length just for species NL and PF. 
+
+surveys_complete %>%
+  #inclusive is & vs. "or"
+  filter(species_id == "NL" | species_id =="PF") %>%
+  ggplot(mapping = aes(x = species_id, y = hindfoot_length)) +
+  geom_boxplot(alpha = 0.5) + 
+  geom_jitter(alpha = 0.3, mapping = aes(color = plot_id))
+
+# plot is is numeric but want it to be categorical
+
+hindfoot_survey <- surveys_complete %>%
+  # inclusive is & vs "or" |
+  filter(species_id == "NL" | species_id == "PF")
+
+hindfoot_survey$plot_factor <- as.factor(hindfoot_survey$plot_id)
+
+ggplot(data = hindfoot_survey,
+       mapping = aes(x = species_id, y = hindfoot_length)) +
+  geom_boxplot(alpha = 0.1) +
+  geom_jitter(alpha = 0.3, mapping = aes(color = plot_factor))
+
+ggplot(data = hindfoot_survey,
+       mapping = aes(x = species_id, y = hindfoot_length)) +
+  geom_boxplot(alpha = 0.1) +
+  geom_jitter(alpha = 0.3, mapping = aes(color = plot_factor))
+
+
+surveys_complete %>%
+  # inclusive is & vs "or" |
+  filter(species_id == "NL" | species_id == "PF") %>%
+  mutate(plot_factor = as.factor(plot_id)) %>%
+  ggplot(mapping = aes(x = species_id, y = hindfoot_length)) +
+  geom_boxplot(alpha = 0.1) +
+  geom_jitter(alpha = 0.3, mapping = aes(color = plot_factor))
+
+
+
+#Overlay a jitter plot of the hindfoot lengths of 
+#each species by a boxplot. Then, color the datapoints 
+#according to the plot from which the sample was taken.
+##Hint: Check the class for plot_id. Consider changing 
+#the class of plot_id from integer to factor. Why does 
+#this change how R makes the graph?        
+        
