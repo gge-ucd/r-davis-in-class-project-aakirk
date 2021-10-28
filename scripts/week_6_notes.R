@@ -221,5 +221,17 @@ surveys_complete %>%
 #according to the plot from which the sample was taken.
 ##Hint: Check the class for plot_id. Consider changing 
 #the class of plot_id from integer to factor. Why does 
-#this change how R makes the graph?        
-        
+#this change how R makes the graph?   
+
+
+#change the axis titles 
+surveys_complete %>%
+  # inclusive is & vs "or" |
+  filter(species_id == "NL" | species_id == "PF") %>%
+  ggplot(mapping = aes(x = species_id, y = hindfoot_length)) +
+  geom_boxplot(alpha = 0.1) +
+  geom_jitter(alpha = 0.3, mapping = aes(color = as.factor(plot_id))) +
+#labels funtion 
+  labs(x = "Species ID", y = "Hindfoot Length", title = "Boxplot", 
+     color = "Plot ID") + 
+  theme_classic() + theme(axis.title.x = element_text(angle = 45))
