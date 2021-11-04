@@ -19,6 +19,9 @@ ggplot()+
   geom_point(aes(x = year, y = mean_lifeExp, color = continent))+ #scatter plot
   geom_line(aes(x = year, y = mean_lifeExp, color = continent)) #line plot
 
+?group_by
+?select
+?summarize
 ##ANSWER KEY
 gapminder %>%
   group_by(continent, year) %>% 
@@ -58,7 +61,8 @@ ggplot(gapminder, aes(x = gdpPercap, y = lifeExp)) +
 countries <- c('Brazil', 'China', 'El Salvador', 'Niger', 'United States')
 
 gapminder %>%
-  filter(country %in% countries) %>%
+  filter(country %in% countries) %>% # %in% means its looking for country and 
+  #if its in the vector "countries" it will return 'true'
   ggplot(aes(x=country, y=lifeExp)) + 
   geom_boxplot() + 
   geom_jitter(alpha=0.3, color = "red" + theme_classic()) + 
@@ -66,4 +70,4 @@ gapminder %>%
   theme(plot.title = element_text(hjust = 0.5)) +
   xlab("country") + ylab("life expectancy")
          
-         
+?geom_jitter   
