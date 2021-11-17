@@ -58,6 +58,8 @@ ggplot(data =new_data) + facet_wrap(~continent,scales = 'free') +
 ?facet_wrap
 
 ##4. The color scale is different from the default- feel free to try out other color scales, just don’t use the defaults!
+##I couldn't figure out how to change the colors on these graphs 
+#edited to add in geom_bar(aes(fill=continent))
   
 ##5. The theme here is different from the default in a few ways, again, feel free to play around with other non-default themes.
 
