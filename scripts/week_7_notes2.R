@@ -27,7 +27,7 @@ labels=c("A", "B", "C"), ncol=2, nrow = 2)
 panel_plot
 
 #use ggdraw + draw_plot to line up the plots
-ggdraw() + draw_plot(diamonds.plot, x = 0, y = 0), width = 1, height = 0.5) +
+ggdraw() + draw_plot(diamonds.plot, x = 0, y = 0, width = 1, height = 0.5) +
 #x and y start at 0 and width takes up whole axis and y takes half
   draw_plot(mpg.plot, x = 0, y = 0.5, height, 0.5, width = 0.5) +
   draw_plot(diamonds.plot, x = 0.5, y = 0.5, width = 0.5, height = 0.5)
@@ -36,4 +36,18 @@ ggdraw() + draw_plot(diamonds.plot, x = 0, y = 0), width = 1, height = 0.5) +
 #getwd
 #ggsave("finalplot.png")
 
+##in class
+library(tidyverse)
+
+
+library(ggplot2)
+myplot = ggplot(diamonds, aes(x = clarity, fill = cut)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle=70, vjust=0.5)) +
+  scale_fill_viridis_d(option = "C") +
+  theme_classic()
+library(BrailleR)
+VI(myplot)
+
+library(sonify)
 
