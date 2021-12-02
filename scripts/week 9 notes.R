@@ -168,6 +168,7 @@ mloa
 #copy and paste this into the search bar
 #https://github.com/gge-ucd/R-DAVIS/blob/master/data/mauna_loa_README.txt
 
+#HOMEWORK FOR WEEK 9
 #1
 #With the mloa data.frame, remove observations with missing values in rel_humid,
 #temp_C_2m, and windSpeed_m_s.
@@ -175,7 +176,7 @@ mloa
 mloa_sub = mloa %>% filter(rel_humid!=-99,temp_C_2m!=-999.9,windSpeed_m_s!=-99.9)
 
 #2
-#Generate a column called “datetime” using the year, month, day, hour24, and min columns. 
+#Generate a column called � datetime using the year, month, day, hour24, and min columns. 
 
 #Next, create a column called “datetimeLocal” that converts the datetime
 #column to Pacific/Honolulu time (HINT: look at the lubridate function 
@@ -221,11 +222,29 @@ mloa_sub$datetimeLocal  = with_tz(time = mloa_sub$datetime,tzone = 'Pacific/Hono
 #columns. (HINT: Look at the lubridate functions called month() and 
 #hour()). 
 
-mloa_sub %>% group_by()
-##Alycia this is where I left off in class-- not finished
-
 #Finally, make a ggplot scatterplot of the mean monthly 
 #temperature, with points colored by local hour.
+
+## Aggregate and plot
+mloa2 %>%
+  # Extract month and hour from local time column
+  mutate(localMon = month(datetimeLocal, label = TRUE),
+         localHour = hour(datetimeLocal)) %>%
+  # Group by local month and hour
+  group_by(localMon, localHour) %>%
+  # Calculate mean temperature
+  summarize(meantemp = mean(temp_C_2m)) %>%
+  # Plot
+  ggplot(aes(x = localMon,
+             y = meantemp)) +
+  # Color points by local hour
+  geom_point(aes(col = localHour)) +
+  # Use a nice color ramp
+  scale_color_viridis_c() +
+  # Label axes, add a theme
+  xlab("Month") +
+  ylab("Mean temperature (degrees C)") +
+  theme_classic()
 
 #-----PART 2 OF LECTURE------ Writing functions
 
